@@ -26,6 +26,14 @@ class Relationship(FromDict):
     pass
 
 
+class JobParameters(FromDict):
+    pass
+
+
+class JobDescription(FromDict):
+    pass
+
+
 class OCMFile:
     def __init__(self, filename):
         self.filename = filename
@@ -47,7 +55,7 @@ class OCMFile:
         if part[:1] != '/':
             raise NotImplementedError('relative part paths are not supported')
         # Strip the leading slash as this is how zipfile module handles paths
-        part = part [1:]
+        part = part[1:]
 
         # and there is only one special case for
         # non part related relationships -> the package
@@ -74,3 +82,42 @@ class OCMFile:
             relation for relation in relationships_for_file
             if type is None or relation.Type == type
         ]
+
+
+    def read_job_parameters(self, part_path):
+        # TODO Check file ending + mimetype
+        part_path = part_path[1:]
+
+        try:
+            parameters_xml_string = self.file.read(part_path)
+        except KeyError:
+            raise PartNotFoundException(f'Part "/{part_path}" does not exist in package')
+
+        parameter_dict = {}
+
+        parameters = ElementTree.fromstring(parameters_xml_string)
+        for param in parameters:
+            _, _, tag_without_namespace = param.tag.rpartition('}')
+            parameter_dict[tag_without_namespace] = param.text
+
+        return JobParameters(parameter_dict)
+
+
+    def read_job_description(self, part_path):
+        # TODO Check file ending + mimetype
+        part_path = part_path[1:]
+
+        try:
+            parameters_xml_string = self.file.read(part_path)
+        except KeyError:
+            raise PartNotFoundException(f'Part "/{part_path}" does not exist in package')
+
+        parameter_dict = {}
+
+        parameters = ElementTree.fromstring(parameters_xml_string)
+        for param in parameters:
+            _, _, tag_without_namespace = param.tag.rpartition('}')
+            parameter_dict[tag_without_namespace] = param.text
+
+        return JobDescription(parameter_dict)
+
