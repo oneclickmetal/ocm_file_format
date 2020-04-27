@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mprint_job_parameters version="0.1" xmlns="http://schemas.oneclickmetal.com/package/2020/relationships/mprint/job_parameters">
+  <!--The target level for oxygen in the build chamber in percent, DEFAULT: 0.3-->
+  <oxygen_level_target>0.3</oxygen_level_target>
+  <!--The allowed offset between real and desired oxygen level. It might not completely reach the desired target DEFAULT: 0.1 -->
+  <oxygen_allowed_offset>0.1</oxygen_allowed_offset>
+  <!--Layer height-->
+  <layer_height>0.05</layer_height>
+</mprint_job_parameters>

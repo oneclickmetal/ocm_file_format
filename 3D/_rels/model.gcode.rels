@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rel0" Target="/3D/model.mprint_job_parameters" Type="http://schemas.oneclickmetal.com/package/2020/relationships/mprint/job_parameters" />
+  <Relationship Id="rel1" Target="/3D/model.mprint_job_description" Type="http://schemas.oneclickmetal.com/package/2020/relationships/mprint/job_description" />
+  <Relationship  Id="rel2" Target="/Metadata/thumbnail.png" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail"/>
+</Relationships>

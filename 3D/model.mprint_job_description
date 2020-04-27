@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mprint_job_description version="0.1" xmlns="http://schemas.oneclickmetal.com/package/2020/relationships/mprint/job_description">
+  <!--ISO8601 Timestamp specifying the date when the file was generated-->
+  <creation_date>2009-01-01T12:00:00+01:00</creation_date>
+  <!--ISO8601 Duration specifying the estimated print time-->
+  <estimated_print_time>P2DT06H12M50S</estimated_print_time>
+  <!--powder consumption for the parts TODO-->
+  <estimated_powder_consumption></estimated_powder_consumption>
+  <!--Number of layers contained in the job-->
+  <layer_count>2314</layer_count>
+  <!--The material the job was sliced to be printed with-->
+  <material>StainlessSteel</material>
+</mprint_job_description>
