@@ -47,6 +47,10 @@ class OCMFile:
 
     def open(self):
         self.file = ZipFile(self.filename)
+        self.gcode_part = self.__locate_gcode_file()
+        self.thumbnail_part = self.__locate_thumbnail(self.gcode_part)
+        self.job_description = self.__read_job_description(self.gcode_part)
+        self.job_parameters = self.__read_job_parameters(self.gcode_part)
 
     def close(self):
         self.file.close()
@@ -84,8 +88,7 @@ class OCMFile:
         ]
 
 
-    def read_job_parameters(self, part_path):
-        # TODO Check file ending + mimetype
+    def __read_xml_to_dict(self, part_path):
         part_path = part_path[1:]
 
         try:
@@ -99,25 +102,43 @@ class OCMFile:
         for param in parameters:
             _, _, tag_without_namespace = param.tag.rpartition('}')
             parameter_dict[tag_without_namespace] = param.text
+
+        return parameter_dict
+
+
+    def __read_job_parameters(self, gcode_part):
+        parameter_parts = self.read_relationships(gcode_part, JOB_PARAMETERS_RELATION_TYPE)
+        if not parameter_parts:
+            return None
+
+        parameter_dict = self.__read_xml_to_dict(parameter_parts[0].Target)
 
         return JobParameters(parameter_dict)
 
 
-    def read_job_description(self, part_path):
-        # TODO Check file ending + mimetype
-        part_path = part_path[1:]
+    def __read_job_description(self, gcode_part):
 
-        try:
-            parameters_xml_string = self.file.read(part_path)
-        except KeyError:
-            raise PartNotFoundException(f'Part "/{part_path}" does not exist in package')
+        parameter_parts = self.read_relationships(gcode_part, JOB_DESCRIPTION_RELATION_TYPE)
+        if not parameter_parts:
+            return None
 
-        parameter_dict = {}
-
-        parameters = ElementTree.fromstring(parameters_xml_string)
-        for param in parameters:
-            _, _, tag_without_namespace = param.tag.rpartition('}')
-            parameter_dict[tag_without_namespace] = param.text
+        parameter_dict = self.__read_xml_to_dict(parameter_parts[0].Target)
 
         return JobDescription(parameter_dict)
 
+    def __locate_gcode_file(self):
+        gcode_parts = self.read_relationships('/', GCODE_RELATION_TYPE)
+        if not gcode_parts:
+            raise PartNotFoundException('No toplevel gcode file found')
+        if len(gcode_parts) > 1:
+            raise NotImplementedError('Multiple toplevel gcode files are not supported')
+
+        return gcode_parts[0].Target
+
+    def __locate_thumbnail(self, gcode_part):
+        gcode_thumbnails = self.read_relationships(gcode_part, THUMBNAIL_RELATION_TYPE)
+        # Try toplevel if no thumbnail relationship is found for the gcode part
+        if not gcode_thumbnails:
+            gcode_thumbnails = self.read_relationships('/', THUMBNAIL_RELATION_TYPE)
+
+        return next((part.Target for part in gcode_thumbnails), None)

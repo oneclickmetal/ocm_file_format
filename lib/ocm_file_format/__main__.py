@@ -7,16 +7,7 @@ if __name__ == '__main__':
         exit(1)\
 
     with OCMFile(sys.argv[1]) as ocmfile:
-        gcode_part = ocmfile.read_relationships('/', type=GCODE_RELATION_TYPE)[0].Target
-
-        parameters_part = ocmfile.read_relationships(gcode_part, JOB_PARAMETERS_RELATION_TYPE)[0].Target
-        description_part = ocmfile.read_relationships(gcode_part, JOB_DESCRIPTION_RELATION_TYPE)[0].Target
-        thumbnail_part = ocmfile.read_relationships(gcode_part, THUMBNAIL_RELATION_TYPE)[0].Target
-
-        parameters = ocmfile.read_job_parameters(parameters_part)
-        description = ocmfile.read_job_description(description_part)
-
-        print("Gcode path: ", gcode_part)
-        print("Thumbnail path: ", thumbnail_part)
-        print("Parameters: ", parameters)
-        print("Description: ", description)
+        print("Gcode path: ", ocmfile.gcode_part)
+        print("Thumbnail path: ", ocmfile.thumbnail_part)
+        print("Parameters: ", ocmfile.job_parameters)
+        print("Description: ", ocmfile.job_description)
