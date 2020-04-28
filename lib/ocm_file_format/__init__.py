@@ -67,12 +67,13 @@ class OCMFile:
         if part != '':
             try:
                 part_info = self.file.getinfo(part)
-                if part_info.is_dir():
-                    raise PartNotFoundException(f'Part "/{part}" is a directory, no file.')
+                # Not Py2 compatible
+                # if part_info.is_dir():
+                #     raise PartNotFoundException('Part "/{}" is a directory, no file.'.format(part))
             except KeyError:
-                raise PartNotFoundException(f'Part "/{part}" does not exist in package')
+                raise PartNotFoundException('Part "/{}" does not exist in package'.format(part))
 
-        relationships_file = join(dirname(part), '_rels', f'{basename(part)}.rels')
+        relationships_file = join(dirname(part), '_rels', '{}.rels'.format(basename(part)))
         if relationships_file not in self.file.namelist():
             return []
 
@@ -94,7 +95,7 @@ class OCMFile:
         try:
             parameters_xml_string = self.file.read(part_path)
         except KeyError:
-            raise PartNotFoundException(f'Part "/{part_path}" does not exist in package')
+            raise PartNotFoundException('Part "/{}" does not exist in package'.format(part_path))
 
         parameter_dict = {}
 
