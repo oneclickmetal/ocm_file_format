@@ -1,3 +1,5 @@
+# Parts
+
 1. GCode - required
     - The gcode that should be executed by the machine. No further transformation will happen.
     - ContentType: text/x-gcode
@@ -14,3 +16,34 @@
     - Additional information that can be shown to the user or used to calculate job progress.
     - ContentType: application/oneclickmetal.mprint.job_description+xml
     - Relation Type: http://schemas.oneclickmetal.com/package/2020/relationships/mprint/job_description
+
+
+# Relationships
+
+```
+                                              +-----------------------+
+                                              |                       |
+                                              |     Package Root      |
+                                              |                       |
+                                              +--+-----------------+--+
+                                                 |                 |
++-----------------------------------------------------------+      |   +----------------------------+
+|                                                |          |      |   |                            |
+|                   +----------------------+     |          |      |   |  +----------------------+  |
+|                   |                      <-----+          |      +------>                      |  |
+|                   |        G-Code        |                |          |  |   Thumbnail (png)    |  |
+|                   |                      +------------------------------>                      |  |
+|                   +-+----------------+---+                |          |  +----------------------+  |
+|                     |                |                    |          |                            |
+|                     |                |                    |          |                            |
+|                     |                |                    |          |                            |
+|  +------------------v---+        +---v------------------+ |          |                            |
+|  |                      |        |                      | |          |                            |
+|  |   Job Parameters     |        |   Job Parameters     | |          |                            |
+|  |                      |        |                      | |          |                            |
+|  +----------------------+        +----------------------+ |          |                            |
+|                                                           |          |                            |
+|                                                           |          |                            |
+|/3D/                                                       |          |/Metadata/                  |
++-----------------------------------------------------------+          +----------------------------+
+```
