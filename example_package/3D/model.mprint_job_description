@@ -12,6 +12,4 @@
   <estimated_powder_consumption>2.7</estimated_powder_consumption>
   <!--Number of layers contained in the job-->
   <layer_count>2314</layer_count>
-  <!--The material the job was sliced to be printed with-->
-  <material>StainlessSteel</material>
 </mprint_job_description>

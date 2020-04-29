@@ -10,4 +10,6 @@
   <circulation_differential_pressure>345</circulation_differential_pressure>
   <!--Oversupply factor for powder coating-->
   <oversupply_factor>2.5</oversupply_factor>
+  <!--The material the job was sliced to be printed with-->
+  <material>StainlessSteel</material>
 </mprint_job_parameters>
