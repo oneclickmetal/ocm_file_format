@@ -111,7 +111,7 @@ class OCMFile:
     def __read_job_parameters(self, gcode_part):
         parameter_parts = self.read_relationships(gcode_part, JOB_PARAMETERS_RELATION_TYPE)
         if not parameter_parts:
-            return None
+            return JobParameters({})
 
         parameter_dict = self.__read_xml_to_dict(parameter_parts[0].Target)
 
@@ -122,7 +122,7 @@ class OCMFile:
 
         parameter_parts = self.read_relationships(gcode_part, JOB_DESCRIPTION_RELATION_TYPE)
         if not parameter_parts:
-            return None
+            return JobDescription({})
 
         parameter_dict = self.__read_xml_to_dict(parameter_parts[0].Target)
 
