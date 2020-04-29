@@ -6,8 +6,8 @@
   <slicer_id>mprep-v0.0.1+4b3e5bf</slicer_id>
   <!--Tracking id-->
   <job_id>9a14926b-9783-482f-ac2a-31d8e3901833</job_id>
-  <!--ISO8601 Duration specifying the estimated print time-->
-  <estimated_print_time>P2DT06H12M50S</estimated_print_time>
+  <!--Estimated print time in seconds-->
+  <estimated_print_time_seconds>239232</estimated_print_time_seconds>
   <!--powder consumption for the parts in #cartridges -->
   <estimated_powder_consumption>2.7</estimated_powder_consumption>
   <!--Number of layers contained in the job-->
