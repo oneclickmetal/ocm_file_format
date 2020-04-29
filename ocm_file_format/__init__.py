@@ -55,6 +55,9 @@ class OCMFile:
     def close(self):
         self.file.close()
 
+    def read_part(self, part):
+        return self.file.read(part[1:])
+
     def read_relationships(self, part, type=None):
         if part[:1] != '/':
             raise NotImplementedError('relative part paths are not supported')
