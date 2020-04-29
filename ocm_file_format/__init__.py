@@ -46,17 +46,20 @@ class OCMFile:
         self.close()
 
     def open(self):
-        self.file = ZipFile(self.filename)
+        self.__file = ZipFile(self.filename)
         self.gcode_part = self.__locate_gcode_file()
         self.thumbnail_part = self.__locate_thumbnail(self.gcode_part)
         self.job_description = self.__read_job_description(self.gcode_part)
         self.job_parameters = self.__read_job_parameters(self.gcode_part)
 
     def close(self):
-        self.file.close()
+        self.__file.close()
 
     def read_part(self, part):
-        return self.file.read(part[1:])
+        try:
+            return self.__file.read(part[1:])
+        except KeyError:
+            raise PartNotFoundException('Part "/{}" does not exist in package'.format(part))
 
     def read_relationships(self, part, type=None):
         if part[:1] != '/':
@@ -69,7 +72,7 @@ class OCMFile:
         # otherwise check if file exists
         if part != '':
             try:
-                part_info = self.file.getinfo(part)
+                part_info = self.__file.getinfo(part)
                 # Not Py2 compatible
                 # if part_info.is_dir():
                 #     raise PartNotFoundException('Part "/{}" is a directory, no file.'.format(part))
@@ -77,10 +80,10 @@ class OCMFile:
                 raise PartNotFoundException('Part "/{}" does not exist in package'.format(part))
 
         relationships_file = join(dirname(part), '_rels', '{}.rels'.format(basename(part)))
-        if relationships_file not in self.file.namelist():
+        if relationships_file not in self.__file.namelist():
             return []
 
-        relationships_file_content = self.file.read(relationships_file)
+        relationships_file_content = self.__file.read(relationships_file)
         relationships_xml = ElementTree.fromstring(relationships_file_content)
         relationships_for_file = [
             Relationship(element.attrib) for element in relationships_xml.findall(XML_ID_RELATIONSHIP)
@@ -93,12 +96,7 @@ class OCMFile:
 
 
     def __read_xml_to_dict(self, part_path):
-        part_path = part_path[1:]
-
-        try:
-            parameters_xml_string = self.file.read(part_path)
-        except KeyError:
-            raise PartNotFoundException('Part "/{}" does not exist in package'.format(part_path))
+        parameters_xml_string = self.read_part(part_path)
 
         parameter_dict = {}
 
