@@ -52,7 +52,7 @@ The G-Code file may have additional relationships to a thumbnail, job parameters
 |                     |                |                    |          |                            |
 |  +------------------v---+        +---v------------------+ |          |                            |
 |  |                      |        |                      | |          |                            |
-|  |   Job Parameters     |        |   Job Parameters     | |          |                            |
+|  |   Job Parameters     |        |   Job Description    | |          |                            |
 |  |                      |        |                      | |          |                            |
 |  +----------------------+        +----------------------+ |          |                            |
 |                                                           |          |                            |
