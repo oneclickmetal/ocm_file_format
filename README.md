@@ -1,6 +1,6 @@
 # OCM File Format
 This is a file format for OneClickMetal 3D Printers based on the Open Packaging Conventions.
-The `example_package` folder contains an unzipped example package.
+The `example_package` folder contains an unzipped example package. The expected fileending is `.mprint`.
 
 # Contents
 ## Parts
